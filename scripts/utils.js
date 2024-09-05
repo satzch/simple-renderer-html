@@ -7,11 +7,15 @@ function putPixel(x, y, color) {
 }
 
 function clearScreen() {
+    if (LOG || LOG_All) console.log("Clear Screen");
+
     ctx.fillStyle = Constants.backgroundColor;
     ctx.fillRect(0, 0, Constants.screenWidth, Constants.screenHeight);
 }
 
 function bresenhamLine(x0, y0, x1, y1, color) {
+    if (LOG_All) console.log("Drawing line using Bresenham Algorithm");
+
     let dx = x1 - x0;
     let dy = y1 - y0;
     let D = 2 * dy - dx;
@@ -27,6 +31,8 @@ function bresenhamLine(x0, y0, x1, y1, color) {
 }
 
 function drawLine(x0, y0, x1, y1, color) {
+    if (LOG_All) console.log("Drawing line using canvas inbuilt functions");
+
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
     ctx.beginPath();
@@ -36,16 +42,24 @@ function drawLine(x0, y0, x1, y1, color) {
 }
 
 function normalToScreen(x, y) {
+    if (LOG || LOG_All) console.log("Converted Normal Coordinates to Screen Coordinates");
+
     x += 1;
     y += 1;
     x = x / 2;
     y = y / 2;
     x *= Constants.screenWidth;
     y *= Constants.screenHeight;
+
+    if (LOG || LOG_All) console.log("Resultant Screen Coordinates: [", x, ",", y, "]");
+
     return [x, y];
 }
 
 function matrixMultiply(A, B) {
+    if (LOG || LOG_All)
+        console.log("Matrix Multiply: ", A, " and ", B);
+
     if (A[0].length != B.length) return null;
     let C = new Array(A.length);
     for (let i = 0; i < A.length; i++) {
@@ -61,20 +75,29 @@ function matrixMultiply(A, B) {
 }
 
 function drawTriangle(x0, y0, x1, y1, x2, y2, color) {
+    if (LOG_All) console.log("Drawing triangle");
+
     drawLine(x0, y0, x1, y1, color);
     drawLine(x1, y1, x2, y2, color);
     drawLine(x2, y2, x0, y0, color);
 }
 
 function projectToScreen(vertex) {
+    if (LOG || LOG_All)
+        console.log("Projecting 3D to 2D using Projection Matrix");
+
     if (vertex.length == 3) vertex.push(1);
     let result = matrixMultiply([vertex] , projectionMatrix);
-    console.log("Inside Project Screen Function")
-    for (let i of result ) console.log(i)
+
+    if (LOG_All || LOG) console.log("Resulting Projected Vertex: ", result);
+    
     return result;
 }
 
 function rotateAroundXAxis(vertex, angle) {
+    if (LOG || LOG_All)
+        console.log("Rotating the vertex: ", vertex, "by", angle, "radians around the x-axis");
+
     if (vertex.length == 3) vertex.push(1);
     // let radians = angle * Math.PI / 180;
     let radians = angle;
@@ -88,8 +111,10 @@ function rotateAroundXAxis(vertex, angle) {
 }
 
 function rotateAroundZAxis(vertex, angle) {
+    if (LOG || LOG_All)
+        console.log("Rotating the vertex: ", vertex, "by", angle, "radians around the z-axis");
+
     if (vertex.length == 3) vertex.push(1);
-    // console.log([vertex])
     // let radians = angle * Math.PI / 180;
     let radians = angle;
     const rotationMatrix = [
@@ -98,8 +123,6 @@ function rotateAroundZAxis(vertex, angle) {
         [0, 0, 1, 0],
         [0, 0, 0, 1]
     ];
-    // console.log(rotationMatrix)
     let rotatedCoord = matrixMultiply([vertex], rotationMatrix);
-    // console.log("Inside Z Rotation", rotatedCoord)
     return rotatedCoord;
 }
