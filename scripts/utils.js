@@ -1,3 +1,5 @@
+// All functions are my self implementation
+// So there might be some mistakes present
 
 function putPixel(x, y, color) {
     let temp = ctx.fillStyle;
@@ -125,4 +127,26 @@ function rotateAroundZAxis(vertex, angle) {
     ];
     let rotatedCoord = matrixMultiply([vertex], rotationMatrix);
     return rotatedCoord;
+}
+
+function dotProduct(A, B) {
+    if (LOG || LOG_All)
+        console.log("Dot Product: ", A, "and", B);
+
+    if (A.length != B.length) return null;
+    let result = [];
+    for (let i = 0; i < A.length; i++) {
+        result.push(A[i] * B[i]);
+    }
+    return result;
+}
+
+// Calculates the cross product using the first three values of the array passed
+// Representing the x, y and z of a vector3
+function crossProductVec3(A, B) {
+    if (A.length < 3 || B.length < 3) return null;
+    let x = A[1] * B[2] - A[2] * B[1];
+    let y = A[2] * B[0] - A[0] * B[2];
+    let z = A[0] * B[1] - A[1] * B[0];
+    return [x, y, z];
 }
