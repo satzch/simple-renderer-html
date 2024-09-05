@@ -1,6 +1,7 @@
 let cube = Cube();
 
 let rotationX = 0;
+let rotationY = 0.1;
 let rotationZ = 0.5;
 
 let cameraDir = [0, 0, -1];
@@ -26,7 +27,8 @@ function render() {
                 console.log("---- Rotating Vertex ----> ");
 
             let rotatedCoordX = rotateAroundXAxis(cube.vertices[coord], rotationX)[0];
-            let rotatedCoord = rotateAroundZAxis(rotatedCoordX, rotationZ)[0];
+            let rotatedCoordXZ = rotateAroundZAxis(rotatedCoordX, rotationZ)[0];
+            let rotatedCoord = rotateAroundYAxis(rotatedCoordXZ, rotationY)[0];
             // console.log("Rotated Normal Coord", rotatedCoord);
 
 
@@ -99,6 +101,7 @@ function render() {
 
     if (LOG || LOG_All) console.log("Frame done.")
     rotationX += 0.01;
+    rotationY += 0.006;
     rotationZ += 0.005;
     requestAnimationFrame(render);
 }

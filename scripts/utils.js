@@ -129,6 +129,25 @@ function rotateAroundZAxis(vertex, angle) {
     return rotatedCoord;
 }
 
+
+function rotateAroundYAxis(vertex, angle) {
+    if (LOG || LOG_All)
+        console.log("Rotating the vertex: ", vertex, "by", angle, "radians around the y-axis");
+
+    if (vertex.length == 3) vertex.push(1);
+    // let radians = angle * Math.PI / 180;
+    let radians = angle;
+    const rotationMatrix = [
+        [Math.cos(radians), 0, Math.sin(radians), 0],
+        [0, 1, 0, 0],
+        [-Math.sin(radians), 0, Math.cos(radians), 0],
+        [0, 0, 0, 1]
+    ];
+    let rotatedCoord = matrixMultiply([vertex], rotationMatrix);
+    return rotatedCoord;
+}
+
+
 function dotProduct(A, B) {
     if (LOG || LOG_All)
         console.log("Dot Product: ", A, "and", B);
