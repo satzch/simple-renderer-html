@@ -7,6 +7,7 @@
     <style>
         body{
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -17,10 +18,12 @@
     </style>
 </head>
 <body>
+    <input type="file" id="file-input">
     <canvas id="canvas"></canvas>
     <script src="./scripts/setup.js" defer></script>
     <script src="./scripts/utils.js" defer></script>
     <script src="./scripts/cube.js" defer></script>
     <script src="./scripts/renderer.js" defer></script>
+    <script src="./scripts/objReader.js" defer></script>
 </body>
 </html>

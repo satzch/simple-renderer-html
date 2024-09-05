@@ -1,10 +1,10 @@
-let cube = Cube();
+let obj = Cube();
 
 let rotationX = 0;
 let rotationY = 0.1;
-let rotationZ = 0.5;
+let rotationZ = 0;
 
-let cameraDir = [0, 0, -1];
+let cameraDir = [0, 0, 1];
 
 function render() {
     clearScreen();
@@ -16,7 +16,7 @@ function render() {
     // All coordinates were in normalized device coordinates
     // So convert each from normalized coordinates to screen coordinates
     // Store the group of vertices for one triangle and draw it
-    for (let index of cube.tries) {
+    for (let index of obj.tries) {
         if (LOG || LOG_All)
             console.log("---- TRIANGLE ----> ");
         
@@ -26,7 +26,7 @@ function render() {
             if (LOG || LOG_All)
                 console.log("---- Rotating Vertex ----> ");
 
-            let rotatedCoordX = rotateAroundXAxis(cube.vertices[coord], rotationX)[0];
+            let rotatedCoordX = rotateAroundXAxis(obj.vertices[coord], rotationX)[0];
             let rotatedCoordXZ = rotateAroundZAxis(rotatedCoordX, rotationZ)[0];
             let rotatedCoord = rotateAroundYAxis(rotatedCoordXZ, rotationY)[0];
             // console.log("Rotated Normal Coord", rotatedCoord);
@@ -34,7 +34,7 @@ function render() {
 
             if (LOG || LOG_All) 
                 console.log("-- Shifting vertex away from screen (positive z-direction) -->");
-            rotatedCoord[2] += 2.0;
+            rotatedCoord[2] += 8.0;
 
             if (LOG || LOG_All) 
                 console.log("---- Projecting the Vertex ---->");
@@ -100,9 +100,9 @@ function render() {
     }
 
     if (LOG || LOG_All) console.log("Frame done.")
-    rotationX += 0.01;
+    // rotationX += 0.01;
     rotationY += 0.006;
-    rotationZ += 0.005;
+    // rotationZ += 0.005;
     requestAnimationFrame(render);
 }
 
