@@ -134,9 +134,9 @@ function dotProduct(A, B) {
         console.log("Dot Product: ", A, "and", B);
 
     if (A.length != B.length) return null;
-    let result = [];
+    let result = 0;
     for (let i = 0; i < A.length; i++) {
-        result.push(A[i] * B[i]);
+        result += (A[i] * B[i]);
     }
     return result;
 }
