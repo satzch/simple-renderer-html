@@ -4,29 +4,29 @@ let rotationX = 0;
 let rotationY = 0.1;
 let rotationZ = 0;
 
-let cameraDir = [0, 0, 1];
+let cameraDir = [0, 0, 1]; // temp
 
 function render() {
     clearScreen();
+
     // bresenhamLine(300, 400, 200, 200, "white");
     // drawLine(300, 300, 50, 50, "white");
 
-    // For all entries(index) of tries,
-    // Transform and project the vertices(coord) of each
-    // All coordinates were in normalized device coordinates
-    // So convert each from normalized coordinates to screen coordinates
-    // Store the group of vertices for one triangle and draw it
-    for (let index of obj.tries) {
+    // For all indexes of tries,
+    // Transform and project the vertices of each
+    for (let indexes of obj.tries) {
         if (LOG || LOG_All)
             console.log("---- TRIANGLE ----> ");
         
-        let culled = false;
+        let isCulled = false;
+        
+        // Store the group of vertices for the triangle to draw it later
         let triangle = []
-        for (let coord of index) {
+        for (let vertex of indexes) {
             if (LOG || LOG_All)
                 console.log("---- Rotating Vertex ----> ");
 
-            let rotatedCoordX = rotateAroundXAxis(obj.vertices[coord], rotationX)[0];
+            let rotatedCoordX = rotateAroundXAxis(obj.vertices[vertex], rotationX)[0];
             let rotatedCoordXZ = rotateAroundZAxis(rotatedCoordX, rotationZ)[0];
             let rotatedCoord = rotateAroundYAxis(rotatedCoordXZ, rotationY)[0];
             // console.log("Rotated Normal Coord", rotatedCoord);
@@ -43,11 +43,15 @@ function render() {
             projectedNormalVertexCoord[0] /= projectedNormalVertexCoord[3]
             projectedNormalVertexCoord[1] /= projectedNormalVertexCoord[3]
 
-            if (LOG || LOG_All) 
+            // All coordinates were in normalized device coordinates
+            // So convert each from normalized coordinates to screen coordinates
+            if (LOG || LOG_All)
                 console.log("-- Converting from Normalized Device Coordinates to Screen Coordinates -->");
             projectedScreenCoord = normalToScreen(projectedNormalVertexCoord[0], projectedNormalVertexCoord[1])
             projectedScreenCoord.push(projectedNormalVertexCoord[2]);
             projectedScreenCoord.push(projectedNormalVertexCoord[3]);
+
+            
             triangle.push(projectedScreenCoord);
         }
 
@@ -84,12 +88,12 @@ function render() {
         let dotProd = dotProduct(normal, cameraDir);
         // console.log("Dot Product: ", dotProd);
 
-        if (dotProd >= 0) culled = true;
+        if (dotProd >= 0) isCulled = true;
         
 
 
 
-        if (culled) continue;
+        if (isCulled) continue;
         drawTriangle(
             triangle[0][0], triangle[0][1],
             triangle[1][0], triangle[1][1],
