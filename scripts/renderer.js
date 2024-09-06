@@ -22,34 +22,33 @@ function render() {
         
         // Store the group of vertices for the triangle to draw it later
         let triangle = []
-        for (let vertex of indexes) {
+        for (let vertexIndex of indexes) {
             if (LOG || LOG_All)
                 console.log("---- Rotating Vertex ----> ");
+            
+            let rotatedVertex = rotateVertex(obj.vertices[vertexIndex], rotationX, rotationY, rotationZ);
 
-            let rotatedCoordX = rotateAroundXAxis(obj.vertices[vertex], rotationX)[0];
-            let rotatedCoordXZ = rotateAroundZAxis(rotatedCoordX, rotationZ)[0];
-            let rotatedCoord = rotateAroundYAxis(rotatedCoordXZ, rotationY)[0];
-            // console.log("Rotated Normal Coord", rotatedCoord);
-
+            if (LOG || LOG_All)
+                console.log("Rotated Normal Coord: ", rotatedVertex);
 
             if (LOG || LOG_All) 
-                console.log("-- Shifting vertex away from screen (positive z-direction) -->");
-            rotatedCoord[2] += 8.0;
+                console.log("-- Shifting vertex away from screen (towards positive z-direction) -->");
+
+            rotatedVertex[2] += 8.0;
 
             if (LOG || LOG_All) 
                 console.log("---- Projecting the Vertex ---->");
-            let projectedNormalVertexCoord = projectToScreen(rotatedCoord)[0];
-            
-            projectedNormalVertexCoord[0] /= projectedNormalVertexCoord[3]
-            projectedNormalVertexCoord[1] /= projectedNormalVertexCoord[3]
+
+            let projectedNormalVertexCoord = projectToScreen(rotatedVertex);
+
 
             // All coordinates were in normalized device coordinates
-            // So convert each from normalized coordinates to screen coordinates
+            // So converting each from normalized coordinates to screen coordinates
             if (LOG || LOG_All)
                 console.log("-- Converting from Normalized Device Coordinates to Screen Coordinates -->");
+
             projectedScreenCoord = normalToScreen(projectedNormalVertexCoord[0], projectedNormalVertexCoord[1])
-            projectedScreenCoord.push(projectedNormalVertexCoord[2]);
-            projectedScreenCoord.push(projectedNormalVertexCoord[3]);
+            projectedScreenCoord = [...projectedScreenCoord, projectedNormalVertexCoord[2], projectedNormalVertexCoord[3]];
 
             
             triangle.push(projectedScreenCoord);
@@ -60,38 +59,31 @@ function render() {
             console.log(triangle);
         }
 
+        // a vector is derived by subtracting one vertex from another
+        // here vertex being a cartesian point represents the position vector
+        let vector1 = [
+            triangle[1][0] - triangle[0][0],
+            triangle[1][1] - triangle[0][1],
+            triangle[1][2] - triangle[0][2]
+        ];
 
-        let vector1 = []
-        vector1.push(triangle[1][0] - triangle[0][0]);
-        vector1.push(triangle[1][1] - triangle[0][1]);
-        vector1.push(triangle[1][2] - triangle[0][2]);
-        let vector1Length = Math.hypot(vector1[0], vector1[1], vector1[2]);
-        vector1[0] /= vector1Length;
-        vector1[1] /= vector1Length;
-        vector1[2] /= vector1Length;
-        // console.log(vector1)
-
-        let vector2 = []
-        vector2.push(triangle[2][0] - triangle[0][0]);
-        vector2.push(triangle[2][1] - triangle[0][1]);
-        vector2.push(triangle[2][2] - triangle[0][2]);
-        let vector2Length = Math.hypot(vector2[0], vector2[1], vector2[2]);
-        vector2[0] /= vector2Length;
-        vector2[1] /= vector2Length;
-        vector2[2] /= vector2Length;
-        // console.log(vector2)
+        let vector2 = [
+            triangle[2][0] - triangle[0][0],
+            triangle[2][1] - triangle[0][1],
+            triangle[2][2] - triangle[0][2]
+        ]
+        
+        vector1 = normalizeVec(vector1);
+        vector2 = normalizeVec(vector2);
 
         let normal = crossProductVec3(vector1, vector2);
         // console.log("Normal", normal)
-
 
         let dotProd = dotProduct(normal, cameraDir);
         // console.log("Dot Product: ", dotProd);
 
         if (dotProd >= 0) isCulled = true;
         
-
-
 
         if (isCulled) continue;
         drawTriangle(
@@ -109,5 +101,28 @@ function render() {
     // rotationZ += 0.005;
     requestAnimationFrame(render);
 }
-
 render();
+
+/**
+ * 
+ * @param {number} vertex - The vertex to be rotated
+ * @param {number} [x=] (optional) - Angle(in radians) to rotate vertex around the X-axis
+ * @param {number} [y=] (optional) - Angle(in radians) to rotate vertex around the Y-axis
+ * @param {number} [z=] (optional) - Angle(in radians) to rotate vertex around the Z-axis
+ * @returns {object} transformed object
+ * @example
+ * for (let indexes of cube.tries) {
+ *   for (let vertexIndex of indexes) {
+ *     rotateVertex(cube.vertices[vertex], rotationX, rotationY, rotationZ);
+ *   }
+ * }
+ * 
+ * // if rotation is required only in one axis (say z-axis)
+ * rotateVertex(vertex, 0, 0, rotationZ);
+ */
+function rotateVertex(vertex, x = 0, y = 0, z = 0) {
+    let rotatedCoordX = rotateAroundXAxis(vertex, x)[0];
+    let rotatedCoordXZ = rotateAroundZAxis(rotatedCoordX, z)[0];
+    let rotatedCoord = rotateAroundYAxis(rotatedCoordXZ, y)[0];
+    return rotatedCoord;
+}

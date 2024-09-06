@@ -58,6 +58,12 @@ function normalToScreen(x, y) {
     return [x, y];
 }
 
+/**
+ * returns the result of matrix multiplication of A and B
+ * @param {number[][]} A 
+ * @param {number[][]} B 
+ * @returns {number[][]}
+ */
 function matrixMultiply(A, B) {
     if (LOG || LOG_All)
         console.log("Matrix Multiply: ", A, " and ", B);
@@ -89,9 +95,14 @@ function projectToScreen(vertex) {
         console.log("Projecting 3D to 2D using Projection Matrix");
 
     if (vertex.length == 3) vertex.push(1);
-    let result = matrixMultiply([vertex] , projectionMatrix);
+
+    // returns 2d array consisting of required result as the first element or only element
+    // 1x4 Matrix X 4x4 Matrix = 1x4 Matrix
+    let result = matrixMultiply([vertex] , projectionMatrix)[0];
 
     if (LOG_All || LOG) console.log("Resulting Projected Vertex: ", result);
+    result[0] /= result[3]
+    result[1] /= result[3]
     
     return result;
 }
@@ -160,12 +171,30 @@ function dotProduct(A, B) {
     return result;
 }
 
-// Calculates the cross product using the first three values of the array passed
-// Representing the x, y and z of a vector3
+/**
+ * Returns the cross product using the first three values of the arrays passed
+ * representing the x, y and z of a vector3
+ * @param {number[]} A - any length array can be passed, but only the first three elements will be considered
+ * @param {number[]} B - any length array can be passed, but only the first three elements will be considered
+ * @returns {number[]} cross product of A and B as an array of length 3.
+ */
 function crossProductVec3(A, B) {
     if (A.length < 3 || B.length < 3) return null;
     let x = A[1] * B[2] - A[2] * B[1];
     let y = A[2] * B[0] - A[0] * B[2];
     let z = A[0] * B[1] - A[1] * B[0];
     return [x, y, z];
+}
+
+/**
+ * Returns the unit vector along the passed vector
+ * @param {number[]} vector
+ */
+function normalizeVec(vector) {
+    // calculate the square root of sum of squares of the vector components to get the length
+    let vectorLength = Math.hypot(vector[0], vector[1], vector[2]);
+    vector[0] /= vectorLength;
+    vector[1] /= vectorLength;
+    vector[2] /= vectorLength;
+    return vector;
 }
