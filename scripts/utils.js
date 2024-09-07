@@ -4,7 +4,8 @@
 function putPixel(x, y, color) {
     let temp = ctx.fillStyle;
     ctx.fillStyle = color;
-    ctx.fillRect(x, y, 1, 1);
+    // In HTML canvas, y increases downwards but I need y increase upwards
+    ctx.fillRect(x, Constants.screenHeight - y, 1, 1);
     ctx.fillStyle = temp;
 }
 
@@ -38,8 +39,9 @@ function drawLine(x0, y0, x1, y1, color) {
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.moveTo(x0, y0);
-    ctx.lineTo(x1, y1);
+    // In HTML canvas, y increases downwards but I need y increase upwards
+    ctx.moveTo(x0, Constants.screenHeight - y0);
+    ctx.lineTo(x1, Constants.screenHeight - y1);
     ctx.stroke();
 }
 
