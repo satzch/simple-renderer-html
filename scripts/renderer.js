@@ -61,28 +61,34 @@ function render() {
 
         // a vector is derived by subtracting one vertex from another
         // here vertex being a cartesian point represents the position vector
-        let vector1 = [
-            triangle[1][0] - triangle[0][0],
-            triangle[1][1] - triangle[0][1],
-            triangle[1][2] - triangle[0][2]
-        ];
+        // let vector1 = [
+        //     triangle[1][0] - triangle[0][0],
+        //     triangle[1][1] - triangle[0][1],
+        //     triangle[1][2] - triangle[0][2]
+        // ];
 
-        let vector2 = [
-            triangle[2][0] - triangle[0][0],
-            triangle[2][1] - triangle[0][1],
-            triangle[2][2] - triangle[0][2]
-        ]
+        // let vector2 = [
+        //     triangle[2][0] - triangle[0][0],
+        //     triangle[2][1] - triangle[0][1],
+        //     triangle[2][2] - triangle[0][2]
+        // ]
         
-        vector1 = normalizeVec(vector1);
-        vector2 = normalizeVec(vector2);
+        // vector1 = normalizeVec(vector1);
+        // vector2 = normalizeVec(vector2);
 
-        let normal = crossProductVec3(vector1, vector2);
-        // console.log("Normal", normal)
+        // let normal = crossProductVec3(vector1, vector2);
+        // // console.log("Normal", normal)
 
-        let dotProd = dotProduct(normal, cameraDir);
-        // console.log("Dot Product: ", dotProd);
+        // let dotProd = dotProduct(normal, cameraDir);
+        // // console.log("Dot Product: ", dotProd);
 
-        if (dotProd >= 0) isCulled = true;
+        // if (dotProd >= 0) isCulled = true;
+
+        isCulled = (0 < edgeFunction(
+            triangle[0].slice(0, 2),
+            triangle[1].slice(0, 2),
+            triangle[2].slice(0, 2)
+        ));
         
 
         if (isCulled) continue;
