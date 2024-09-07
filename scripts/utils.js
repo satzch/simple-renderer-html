@@ -237,24 +237,28 @@ function fillTriangle(triangle, color) {
  * @param {number[]} triangle - array consisting of triangle coordinates in anti-clockwise order 
  * @returns 
  */
+
 function checkPointInsideTriangle(x, y, triangle) {
     let [x0, y0, x1, y1, x2, y2] = triangle;
-    // let isInside = true;
-    
-    let vector0To1 = normalizeVec([x1-x0, y1-y0]);
-    let vector1To2 = normalizeVec([x2-x1, y2-y1]);
-    let vector2To0 = normalizeVec([x0-x2, y0-y2]);
 
-    let vector0ToP = normalizeVec([x-x0, y-y0]);
-    let vector1ToP = normalizeVec([x-x1, y-y1]); 
-    let vector2ToP = normalizeVec([x-x2, y-y2]);
-    
-    // only care about the z component of the cross product to get the angle info
-    let zVector0xP = vector0To1[0] * vector0ToP[1] - vector0To1[1] * vector0ToP[0];
-    let zVector1xP = vector1To2[0] * vector1ToP[1] - vector1To2[1] * vector1ToP[0]; 
-    let zVector2xP = vector2To0[0] * vector2ToP[1] - vector2To0[1] * vector2ToP[0];
-    // console.log(zVector0xP);
+    let ABP = edgeFunction([x0, y0], [x1, y1], [x, y]);
+    let BCP = edgeFunction([x1, y1], [x2, y2], [x, y]);
+    let CAP = edgeFunction([x2, y2], [x0, y0], [x, y]);
 
-    return (zVector0xP < 0 && zVector1xP < 0 && zVector2xP < 0);
-    
+    return (ABP < 0 && BCP < 0 && CAP < 0);
+}
+
+/**
+ * Returns true if P is on the left of vector AB
+ * For more info check this article by Jason Tsorlinis:
+ * https://jtsorlinis.github.io/rendering-tutorial/
+ * @param {number[]} A 
+ * @param {number[]} B 
+ * @param {number[]} P 
+ */
+function edgeFunction(A, B, P) {
+    return (B[0] - A[0]) * (P[1] - A[1]) - (B[1] - A[1]) * (P[0] - A[0]);
+}
+
+
 }
