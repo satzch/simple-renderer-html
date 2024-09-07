@@ -1,4 +1,4 @@
-// All functions are my self implementation
+// All functions are mostly my self implementation
 // So there might be some mistakes present
 
 function putPixel(x, y, color) {
@@ -221,9 +221,16 @@ function fillTriangle(triangle, color) {
     let xMax = Math.max(x0, x1, x2);
     let yMax = Math.max(y0, y1, y2);
 
+
+    let bias0 = isTopOrLeftSide([x0, y0], [x1, y1]) ? 0 : 1;
+    let bias1 = isTopOrLeftSide([x1, y1], [x2, y2]) ? 0 : 1;
+    let bias2 = isTopOrLeftSide([x2, y2], [x0, y0]) ? 0 : 1;
+    let biases = [bias0, bias1, bias2];
+
+
     for (let i = yMin; i < yMax; i++) {
         for (let j = xMin; j < xMax; j++) {
-            if (checkPointInsideTriangle(j, i, triangle)) {
+            if (checkPointInsideTriangle(j, i, triangle, biases)) {
                 putPixel(j, i, color);
             }
         }
@@ -238,18 +245,18 @@ function fillTriangle(triangle, color) {
  * @returns 
  */
 
-function checkPointInsideTriangle(x, y, triangle) {
+function checkPointInsideTriangle(x, y, triangle, biases) {
     let [x0, y0, x1, y1, x2, y2] = triangle;
 
-    let ABP = edgeFunction([x0, y0], [x1, y1], [x, y]);
-    let BCP = edgeFunction([x1, y1], [x2, y2], [x, y]);
-    let CAP = edgeFunction([x2, y2], [x0, y0], [x, y]);
+    let ABP = edgeFunction([x0, y0], [x1, y1], [x, y]) + biases[0];
+    let BCP = edgeFunction([x1, y1], [x2, y2], [x, y]) + biases[1];
+    let CAP = edgeFunction([x2, y2], [x0, y0], [x, y]) + biases[2];
 
     return (ABP < 0 && BCP < 0 && CAP < 0);
 }
 
 /**
- * Returns true if P is on the left of vector AB
+ * Returns negative number if P is on the left of vector AB
  * For more info check this article by Jason Tsorlinis:
  * https://jtsorlinis.github.io/rendering-tutorial/
  * @param {number[]} A 
@@ -261,4 +268,19 @@ function edgeFunction(A, B, P) {
 }
 
 
+function isTopOrLeftSide(v1, v2) {
+    let edge = [v2[0]-v1[0], v2[1]-v1[1]];
+    // if the edge vector has y coordinate of 0, that means it is flat horizontally
+    // And edge's x coordinate < 0 means it is pointing to the left as our triangle coordinates are 
+    // given in anticlockwise order.
+    // Hope this rough ascii diagram helps
+    //     v2 <---------v1
+    //     *         .*
+    //     *     .*
+    //     * .*
+    //     v0
+    let isTopFlatSide = edge[1] == 0 && edge[0] < 0;
+    let isLeftSide = edge[1] > 0;
+
+    return isTopFlatSide || isLeftSide;
 }
