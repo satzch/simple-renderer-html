@@ -244,7 +244,6 @@ function fillTriangle(triangle, color) {
  * @param {number[]} triangle - array consisting of triangle coordinates in anti-clockwise order 
  * @returns 
  */
-
 function checkPointInsideTriangle(x, y, triangle, biases) {
     let [x0, y0, x1, y1, x2, y2] = triangle;
 
@@ -256,7 +255,7 @@ function checkPointInsideTriangle(x, y, triangle, biases) {
 }
 
 /**
- * Returns negative number if P is on the left of vector AB
+ * Returns negative number if P is on the left of vector AB.
  * For more info check this article by Jason Tsorlinis:
  * https://jtsorlinis.github.io/rendering-tutorial/
  * @param {number[]} A 
@@ -267,7 +266,13 @@ function edgeFunction(A, B, P) {
     return (B[0] - A[0]) * (P[1] - A[1]) - (B[1] - A[1]) * (P[0] - A[0]);
 }
 
-
+/**
+ * Returns true if the edge connecting v1 and v2 is top flat edge or left edge of the triangle.
+ * False otherwise
+ * @param {number[]} v1 - vertex of triangle
+ * @param {number[]} v2 - vertex of triangle
+ * @returns 
+ */
 function isTopOrLeftSide(v1, v2) {
     let edge = [v2[0]-v1[0], v2[1]-v1[1]];
     // if the edge vector has y coordinate of 0, that means it is flat horizontally
