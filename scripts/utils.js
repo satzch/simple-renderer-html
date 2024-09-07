@@ -188,13 +188,71 @@ function crossProductVec3(A, B) {
 
 /**
  * Returns the unit vector along the passed vector
- * @param {number[]} vector
+ * @param {number[]} vector - a array consisting of vector components. any length
  */
 function normalizeVec(vector) {
     // calculate the square root of sum of squares of the vector components to get the length
-    let vectorLength = Math.hypot(vector[0], vector[1], vector[2]);
-    vector[0] /= vectorLength;
-    vector[1] /= vectorLength;
-    vector[2] /= vectorLength;
+    // let vectorLength = Math.hypot(vector[0], vector[1], vector[2]);
+    let vectorLength = 0;
+    for (let v of vector) {
+        vectorLength += v*v;
+    }
+    vectorLength = Math.sqrt(vectorLength);
+
+    for (let i = 0; i < vector.length; i++) {
+        vector[i] /= vectorLength;
+    }
     return vector;
+}
+
+/**
+ * Draws a filled triangle with the given coordinates and color.
+ * @param {number[]} triangle - triangle to be drawn. An array of triangle coordinates in screen space, given in anti-clockwise order.
+ * @param {string} color 
+ */
+function fillTriangle(triangle, color) {
+    let [x0, y0, x1, y1, x2, y2] = triangle;
+
+    // find bounding box around the given triangle coordinates
+    let xMin = Math.min(x0, x1, x2);
+    let yMin = Math.min(y0, y1, y2);
+    let xMax = Math.max(x0, x1, x2);
+    let yMax = Math.max(y0, y1, y2);
+
+    for (let i = yMin; i < yMax; i++) {
+        for (let j = xMin; j < xMax; j++) {
+            if (checkPointInsideTriangle(j, i, triangle)) {
+                putPixel(j, i, color);
+            }
+        }
+    }
+}
+
+/**
+ * Returns true if point (x, y) is inside given triangle. Returns false otherwise.
+ * @param {number} x - x coordinate of point to be checked 
+ * @param {number} y - y coordinate of point to be checked
+ * @param {number[]} triangle - array consisting of triangle coordinates in anti-clockwise order 
+ * @returns 
+ */
+function checkPointInsideTriangle(x, y, triangle) {
+    let [x0, y0, x1, y1, x2, y2] = triangle;
+    // let isInside = true;
+    
+    let vector0To1 = normalizeVec([x1-x0, y1-y0]);
+    let vector1To2 = normalizeVec([x2-x1, y2-y1]);
+    let vector2To0 = normalizeVec([x0-x2, y0-y2]);
+
+    let vector0ToP = normalizeVec([x-x0, y-y0]);
+    let vector1ToP = normalizeVec([x-x1, y-y1]); 
+    let vector2ToP = normalizeVec([x-x2, y-y2]);
+    
+    // only care about the z component of the cross product to get the angle info
+    let zVector0xP = vector0To1[0] * vector0ToP[1] - vector0To1[1] * vector0ToP[0];
+    let zVector1xP = vector1To2[0] * vector1ToP[1] - vector1To2[1] * vector1ToP[0]; 
+    let zVector2xP = vector2To0[0] * vector2ToP[1] - vector2To0[1] * vector2ToP[0];
+    // console.log(zVector0xP);
+
+    return (zVector0xP < 0 && zVector1xP < 0 && zVector2xP < 0);
+    
 }

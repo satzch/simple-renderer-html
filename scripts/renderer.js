@@ -93,6 +93,14 @@ function render() {
             "white"
         )
 
+        let triangleVec2 = []; 
+        for (let triag of triangle) {
+            triangleVec2.push(triag[0]);
+            triangleVec2.push(triag[1]);
+        }
+
+        fillTriangle(triangleVec2, "red");
+
     }
 
     if (LOG || LOG_All) console.log("Frame done.")
