@@ -230,7 +230,23 @@ function fillTriangle(triangle, color) {
 
     for (let i = yMin; i < yMax; i++) {
         for (let j = xMin; j < xMax; j++) {
-            if (checkPointInsideTriangle(j, i, triangle, biases)) {
+
+            // moved the checks here to make it easier to calculate Barycentric coordinates in one go
+            let ABP = edgeFunction([x0, y0], [x1, y1], [x, y]) + biases[0];
+            let BCP = edgeFunction([x1, y1], [x2, y2], [x, y]) + biases[1];
+            let CAP = edgeFunction([x2, y2], [x0, y0], [x, y]) + biases[2];
+            let areaOfTriangle = edgeFunction([x0, y0], [x1, y1], [x2, y2]);
+
+            
+            // old conditional: checkPointInsideTriangle(j, i, triangle, biases)
+            // check if point is inside triangle 
+            if (ABP < 0 && BCP < 0 && CAP < 0) {
+                
+                // Barycentric coordinates
+                let weightA = ABP/areaOfTriangle;
+                let weightB = BCP/areaOfTriangle;
+                let weightC = CAP/areaOfTriangle;
+                
                 putPixel(j, i, color);
             }
         }
