@@ -227,9 +227,10 @@ function fillTriangle(triangle, color) {
     let bias2 = isTopOrLeftSide([x2, y2], [x0, y0]) ? 0 : 1;
     let biases = [bias0, bias1, bias2];
 
-    let color1 = Color(255, 0, 0, 1);
-    let color2 = Color(0, 255, 0, 1);
-    let color3 = Color(0, 0, 255, 1);
+    // Don't need for now
+    // let color1 = Color(255, 0, 0, 1);
+    // let color2 = Color(0, 255, 0, 1);
+    // let color3 = Color(0, 0, 255, 1);
 
     areaOfTriangle = edgeFunction([x0, y0], [x1, y1], [x2, y2]);
 
@@ -246,17 +247,18 @@ function fillTriangle(triangle, color) {
             // check if point is inside triangle 
             if (ABP < 0 && BCP < 0 && CAP < 0) {
                 
+                // Don't need the below commented part for now
                 // Barycentric coordinates
-                let weightA = ABP/areaOfTriangle;
-                let weightB = BCP/areaOfTriangle;
-                let weightC = CAP/areaOfTriangle;
+                // let weightA = ABP/areaOfTriangle;
+                // let weightB = BCP/areaOfTriangle;
+                // let weightC = CAP/areaOfTriangle;
 
-                let rColor = (weightA * color1.r) + (weightB * color2.r) + (weightC * color3.r);
-                let gColor = (weightA * color1.g) + (weightB * color2.g) + (weightC * color3.g);
-                let bColor = (weightA * color1.b) + (weightB * color2.b) + (weightC * color3.b);
-                let resultColor = `rgb(${rColor}, ${gColor}, ${bColor})`;
+                // let rColor = (weightA * color1.r) + (weightB * color2.r) + (weightC * color3.r);
+                // let gColor = (weightA * color1.g) + (weightB * color2.g) + (weightC * color3.g);
+                // let bColor = (weightA * color1.b) + (weightB * color2.b) + (weightC * color3.b);
+                // let resultColor = `rgb(${rColor}, ${gColor}, ${bColor})`;
                 
-                putPixel(j, i, resultColor);
+                putPixel(j, i, color);
             }
         }
     }
@@ -323,4 +325,8 @@ function Color(r,g,b,a) {
         b: b,
         a: a
     }
+}
+
+function getColor(intensity) {
+    return `rgb(${intensity*255} 0 0)`;
 }
