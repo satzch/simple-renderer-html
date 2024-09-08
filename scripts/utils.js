@@ -207,6 +207,12 @@ function normalizeVec(vector) {
     return vector;
 }
 
+
+// I think this is where I should stop the polygon fill algorithm
+// I know a lots of optimization and rules can be introduced
+// But this is a learning project so I am keeping it limited for now, maybe upgrade it in future
+// Will again make a Renderer using OpenGl or Vulkan or maybe other, there I will try to expore all the optimizations 
+
 /**
  * Draws a filled triangle with the given coordinates and color.
  * @param {number[]} triangle - triangle to be drawn. An array of triangle coordinates in screen space, given in anti-clockwise order.
