@@ -227,15 +227,19 @@ function fillTriangle(triangle, color) {
     let bias2 = isTopOrLeftSide([x2, y2], [x0, y0]) ? 0 : 1;
     let biases = [bias0, bias1, bias2];
 
+    let color1 = Color(255, 0, 0, 1);
+    let color2 = Color(0, 255, 0, 1);
+    let color3 = Color(0, 0, 255, 1);
+
+    areaOfTriangle = edgeFunction([x0, y0], [x1, y1], [x2, y2]);
 
     for (let i = yMin; i < yMax; i++) {
         for (let j = xMin; j < xMax; j++) {
 
             // moved the checks here to make it easier to calculate Barycentric coordinates in one go
-            let ABP = edgeFunction([x0, y0], [x1, y1], [x, y]) + biases[0];
-            let BCP = edgeFunction([x1, y1], [x2, y2], [x, y]) + biases[1];
-            let CAP = edgeFunction([x2, y2], [x0, y0], [x, y]) + biases[2];
-            let areaOfTriangle = edgeFunction([x0, y0], [x1, y1], [x2, y2]);
+            let ABP = edgeFunction([x0, y0], [x1, y1], [j, i]) + biases[0];
+            let BCP = edgeFunction([x1, y1], [x2, y2], [j, i]) + biases[1];
+            let CAP = edgeFunction([x2, y2], [x0, y0], [j, i]) + biases[2];
 
             
             // old conditional: checkPointInsideTriangle(j, i, triangle, biases)
@@ -246,8 +250,13 @@ function fillTriangle(triangle, color) {
                 let weightA = ABP/areaOfTriangle;
                 let weightB = BCP/areaOfTriangle;
                 let weightC = CAP/areaOfTriangle;
+
+                let rColor = (weightA * color1.r) + (weightB * color2.r) + (weightC * color3.r);
+                let gColor = (weightA * color1.g) + (weightB * color2.g) + (weightC * color3.g);
+                let bColor = (weightA * color1.b) + (weightB * color2.b) + (weightC * color3.b);
+                let resultColor = `rgb(${rColor}, ${gColor}, ${bColor})`;
                 
-                putPixel(j, i, color);
+                putPixel(j, i, resultColor);
             }
         }
     }
@@ -304,4 +313,14 @@ function isTopOrLeftSide(v1, v2) {
     let isLeftSide = edge[1] > 0;
 
     return isTopFlatSide || isLeftSide;
+}
+
+
+function Color(r,g,b,a) {
+    return {
+        r: r,
+        g: g,
+        b: b,
+        a: a
+    }
 }
