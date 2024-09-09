@@ -2,12 +2,14 @@ const fileInput = document.getElementById("file-input");
 
 let objectData;
 
-let selectedObj = {
-    vertices: [],
-    tries: []
-}
 
 fileInput.addEventListener("change", async () => {
+    
+    let selectedObj = {
+        vertices: [],
+        tries: []
+    }
+    
     const [file] = fileInput.files;
 
     if (file) {
