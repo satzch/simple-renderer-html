@@ -105,14 +105,22 @@ function render() {
             triangleVec2.push(triag[1]);
         }
 
-        fillTriangle(triangleVec2, "red");
+        if (!Settings.wireframeOn)
+            fillTriangle(triangleVec2, "red");
 
     }
 
     if (LOG || LOG_All) console.log("Frame done.")
-    // rotationX += 0.01;
-    rotationY += 0.006;
-    // rotationZ += 0.005;
+    
+    if (Settings.rotateX) {
+        rotationX += 0.01;
+    }
+    if (Settings.rotateY) {
+        rotationY += 0.006;
+    }
+    if (Settings.rotateZ) {
+        rotationZ += 0.005;
+    }
     requestAnimationFrame(render);
 }
 render();

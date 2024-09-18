@@ -1,4 +1,4 @@
-const fileInput = document.getElementById("file-input");
+// const fileInput = document.getElementById("file-input");
 
 let objectData;
 
@@ -25,7 +25,7 @@ fileInput.addEventListener("change", async () => {
                 for (let i = 1; i < 4; i++) {
                     vertex.push(Number(line[i]));
                 }
-                console.log("Vertex: ", vertex)
+                // console.log("Vertex: ", vertex)
                 selectedObj.vertices.push(vertex);
             }
 
@@ -35,7 +35,7 @@ fileInput.addEventListener("change", async () => {
                 for (let i = 1; i < 4; i++) {
                     triangle.push(Number(line[i]) - 1);
                 }
-                console.log("Faces: ", triangle)
+                // console.log("Faces: ", triangle)
                 selectedObj.tries.push(triangle);
             }
         }

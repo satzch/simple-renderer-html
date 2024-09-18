@@ -4,23 +4,31 @@ const LOG = false;
 const LOG_All = false;
 
 const Constants = {
-    screenWidth: 640,
-    screenHeight: 480,
+    screenWidth: window.innerWidth,
+    screenHeight: window.innerHeight,
     backgroundColor: "black",
 }
+
+const Settings = {
+    wireframeOn: false,
+    rotateX: false,
+    rotateY: true,
+    rotateZ: false,
+};
 
 canvas.width = Constants.screenWidth;
 canvas.height = Constants.screenHeight;
 
 const ctx = canvas.getContext("2d");
 
-const fov = 90;
-const aspectRatio = Constants.screenHeight/Constants.screenWidth;
-const fovRadians = 1 / ( Math.tan(fov * 0.5 * Math.PI / 180));
-const zFar = 10;
-const zNear = 0.1; 
 
-const projectionMatrix = [
+let fov = 90;
+let aspectRatio = Constants.screenHeight/Constants.screenWidth;
+let fovRadians = 1 / ( Math.tan(fov * 0.5 * Math.PI / 180));
+let zFar = 100;
+let zNear = 0.1; 
+
+let projectionMatrix = [
     [ aspectRatio * fovRadians, 0, 0, 0],
     [ 0, fovRadians, 0, 0],
     [0, 0, zFar/(zFar - zNear), 1],

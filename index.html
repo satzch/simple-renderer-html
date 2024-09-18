@@ -5,26 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic 3D Renderer</title>
     <style>
+        *{
+            box-sizing: border-box;
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
         body{
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
         
         canvas {
-            border: 1px solid black;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        #ui-btn {
+            position: absolute;
+            top: 1vw;
+            right: 1vw;
+            z-index: 15;
+            background-color: #333;
+            border: 1px, solid #555;
+            border-radius: min(10px, 1vw);
+            color: white;
+            padding: 0.5vw;
+        }
+
+        #ui-btn:hover {
+            cursor: pointer;
+        }
+
+        .ui-menu {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #333;
+            opacity: 70%;
+            border: 1px solid #555;
+            width: 50%;
+            height: 100vh;
+            z-index: 10;
+            color: white;
+            padding: 1vw 2vw;
+            padding-top: 8vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ui-menu > div {
+            margin: 0 30px;
+        }
+
+        .input-group {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1vw;
+        }
+
+        #file-input {
+            flex-direction: column;
+            padding-bottom: 20px;
+        }
+
+        #file-input > label {
+            width: 100%;
+            text-align: left;
+        }
+
+        label {
+            margin-top: 10px;
         }
     </style>
 </head>
-<body>
-    <label>Import .obj file to view</label>
-    <input type="file" id="file-input">
+<body id="body">
+    <!-- <label>Import .obj file to view</label>
+    <input type="file" id="file-input"> -->
+    <div id="ui-btn">Show Options</div>
     <canvas id="canvas"></canvas>
     <script src="./scripts/setup.js" defer></script>
     <script src="./scripts/utils.js" defer></script>
     <script src="./scripts/cube.js" defer></script>
     <script src="./scripts/renderer.js" defer></script>
+    <script src="./scripts/ui.js" defer></script>
     <script src="./scripts/objReader.js" defer></script>
 </body>
 </html>
