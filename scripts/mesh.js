@@ -40,9 +40,15 @@ class Mesh {
      */
     render() {
         for (let i = 0; i < this.indices.length - 2; i += 3) {
-            let v1 = this.vertices[i];
-            let v2 = this.vertices[i+1];
-            let v3 = this.vertices[i+2];
+            let v1 = this.vertices[this.indices[i]];
+            let v2 = this.vertices[this.indices[i+1]];
+            let v3 = this.vertices[this.indices[i+2]];
+
+            v1 = v1.position.projectToScreen();
+            v2 = v2.position.projectToScreen();
+            v3 = v3.position.projectToScreen();
+
+            drawTriangle(v1[0], v1[1], v2[0], v2[1], v3[0], v3[1], "white");
         }
     }
 }

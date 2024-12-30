@@ -14,101 +14,104 @@ function render() {
 
     // For all indexes of tries,
     // Transform and project the vertices of each
-    for (let indexes of obj.tries) {
-        if (LOG || LOG_All)
-            console.log("---- TRIANGLE ----> ");
+    // for (let indexes of obj.tries) {
+    //     if (LOG || LOG_All)
+    //         console.log("---- TRIANGLE ----> ");
         
-        let isCulled = false;
+    //     let isCulled = false;
         
-        // Store the group of vertices for the triangle to draw it later
-        let triangle = []
-        for (let vertexIndex of indexes) {
-            if (LOG || LOG_All)
-                console.log("---- Rotating Vertex ----> ");
+    //     // Store the group of vertices for the triangle to draw it later
+    //     let triangle = []
+    //     for (let vertexIndex of indexes) {
+    //         if (LOG || LOG_All)
+    //             console.log("---- Rotating Vertex ----> ");
             
-            let rotatedVertex = rotateVertex(obj.vertices[vertexIndex], rotationX, rotationY, rotationZ);
+    //         let rotatedVertex = rotateVertex(obj.vertices[vertexIndex], rotationX, rotationY, rotationZ);
 
-            if (LOG || LOG_All)
-                console.log("Rotated Normal Coord: ", rotatedVertex);
+    //         if (LOG || LOG_All)
+    //             console.log("Rotated Normal Coord: ", rotatedVertex);
 
-            if (LOG || LOG_All) 
-                console.log("-- Shifting vertex away from screen (towards positive z-direction) -->");
+    //         if (LOG || LOG_All) 
+    //             console.log("-- Shifting vertex away from screen (towards positive z-direction) -->");
 
-            rotatedVertex[2] += 8.0;
+    //         rotatedVertex[2] += 8.0;
 
-            if (LOG || LOG_All) 
-                console.log("---- Projecting the Vertex ---->");
+    //         if (LOG || LOG_All) 
+    //             console.log("---- Projecting the Vertex ---->");
 
-            let projectedNormalVertexCoord = projectToScreen(rotatedVertex);
+    //         let projectedNormalVertexCoord = projectToScreen(rotatedVertex);
 
 
-            // All coordinates were in normalized device coordinates
-            // So converting each from normalized coordinates to screen coordinates
-            if (LOG || LOG_All)
-                console.log("-- Converting from Normalized Device Coordinates to Screen Coordinates -->");
+    //         // All coordinates were in normalized device coordinates
+    //         // So converting each from normalized coordinates to screen coordinates
+    //         if (LOG || LOG_All)
+    //             console.log("-- Converting from Normalized Device Coordinates to Screen Coordinates -->");
 
-            projectedScreenCoord = normalToScreen(projectedNormalVertexCoord[0], projectedNormalVertexCoord[1])
-            // projectedScreenCoord = [...projectedScreenCoord, projectedNormalVertexCoord[2], projectedNormalVertexCoord[3]];
+    //         projectedScreenCoord = normalToScreen(projectedNormalVertexCoord[0], projectedNormalVertexCoord[1])
+    //         // projectedScreenCoord = [...projectedScreenCoord, projectedNormalVertexCoord[2], projectedNormalVertexCoord[3]];
 
             
-            triangle.push(projectedScreenCoord);
-        }
+    //         triangle.push(projectedScreenCoord);
+    //     }
 
-        if (LOG || LOG_All) {
-            console.log("-- Resultant Triangle Coordinates -->");
-            console.log(triangle);
-        }
+    //     if (LOG || LOG_All) {
+    //         console.log("-- Resultant Triangle Coordinates -->");
+    //         console.log(triangle);
+    //     }
 
-        // a vector is derived by subtracting one vertex from another
-        // here vertex being a cartesian point represents the position vector
-        let vector1 = [
-            triangle[1][0] - triangle[0][0],
-            triangle[1][1] - triangle[0][1],
-            triangle[1][2] - triangle[0][2]
-        ];
+    //     // a vector is derived by subtracting one vertex from another
+    //     // here vertex being a cartesian point represents the position vector
+    //     let vector1 = [
+    //         triangle[1][0] - triangle[0][0],
+    //         triangle[1][1] - triangle[0][1],
+    //         triangle[1][2] - triangle[0][2]
+    //     ];
 
-        let vector2 = [
-            triangle[2][0] - triangle[0][0],
-            triangle[2][1] - triangle[0][1],
-            triangle[2][2] - triangle[0][2]
-        ]
+    //     let vector2 = [
+    //         triangle[2][0] - triangle[0][0],
+    //         triangle[2][1] - triangle[0][1],
+    //         triangle[2][2] - triangle[0][2]
+    //     ]
         
-        vector1 = normalizeVec(vector1);
-        vector2 = normalizeVec(vector2);
+    //     vector1 = normalizeVec(vector1);
+    //     vector2 = normalizeVec(vector2);
 
-        let normal = crossProductVec3(vector1, vector2);
-        // console.log("Normal", normal)
+    //     let normal = crossProductVec3(vector1, vector2);
+    //     // console.log("Normal", normal)
 
-        let dotProd = dotProduct(normal, cameraDir);
-        // console.log("Dot Product: ", dotProd);
+    //     let dotProd = dotProduct(normal, cameraDir);
+    //     // console.log("Dot Product: ", dotProd);
 
-        if (dotProd >= 0) isCulled = true;
+    //     if (dotProd >= 0) isCulled = true;
 
-        // isCulled = (0 < edgeFunction(
-        //     triangle[0].slice(0, 2),
-        //     triangle[1].slice(0, 2),
-        //     triangle[2].slice(0, 2)
-        // ));
+    //     // isCulled = (0 < edgeFunction(
+    //     //     triangle[0].slice(0, 2),
+    //     //     triangle[1].slice(0, 2),
+    //     //     triangle[2].slice(0, 2)
+    //     // ));
         
 
-        if (isCulled) continue;
-        drawTriangle(
-            triangle[0][0], triangle[0][1],
-            triangle[1][0], triangle[1][1],
-            triangle[2][0], triangle[2][1],
-            "white"
-        )
+    //     if (isCulled) continue;
+    //     drawTriangle(
+    //         triangle[0][0], triangle[0][1],
+    //         triangle[1][0], triangle[1][1],
+    //         triangle[2][0], triangle[2][1],
+    //         "white"
+    //     )
 
-        let triangleVec2 = []; 
-        for (let triag of triangle) {
-            triangleVec2.push(triag[0]);
-            triangleVec2.push(triag[1]);
-        }
+    //     let triangleVec2 = []; 
+    //     for (let triag of triangle) {
+    //         triangleVec2.push(triag[0]);
+    //         triangleVec2.push(triag[1]);
+    //     }
 
-        if (!Settings.wireframeOn)
-            fillTriangle(triangleVec2, "red");
+    //     if (!Settings.wireframeOn)
+    //         fillTriangle(triangleVec2, "red");
 
-    }
+    
+    // }
+    
+    obj.render();
 
     if (LOG || LOG_All) console.log("Frame done.")
     

@@ -107,4 +107,37 @@ class Vector {
     projectOn(vec) {
         return vec.multiply(this.dot(vec)/vec.length()*vec.length());
     }
+
+    /**
+     * Multiply the vector with the matrix and return the result
+     * @param {Array<Array<Number>>} matrix Matrix to be multiplied
+     * @returns Resulting vector after multiplying
+     */
+    multiplyMatrix(matrix) {
+        let result = new Vector();
+        result.x = this.x * matrix[0][0] + this.y * matrix[0][1] + this.z * matrix[0][2] + matrix[0][3];
+        result.y = this.x * matrix[1][0] + this.y * matrix[1][1] + this.z * matrix[1][2] + matrix[1][3];
+        result.z = this.x * matrix[2][0] + this.y * matrix[2][1] + this.z * matrix[2][2] + matrix[2][3];
+        return result;
+    }
+
+    /**
+     * Project the vector coordinates to screen coordinates
+     */
+    projectToScreen() {
+        let matrix = projectionMatrix;
+        let result = [];
+        result.push(this.x * matrix[0][0] + this.y * matrix[0][1] + this.z * matrix[0][2] + matrix[0][3]);
+        result.push(this.x * matrix[1][0] + this.y * matrix[1][1] + this.z * matrix[1][2] + matrix[1][3]);
+        result.push(this.x * matrix[2][0] + this.y * matrix[2][1] + this.z * matrix[2][2] + matrix[2][3]);
+        result.push(this.x * matrix[3][0] + this.y * matrix[3][1] + this.z * matrix[3][2] + matrix[3][3])
+
+        console.log(result);
+        result[0] /= result[3];
+        result[1] /= result[3];
+        result[2] /= result[3];
+
+        let projectedScreenCoord = normalToScreen(result[0], result[1]);
+        return projectedScreenCoord;
+    }
 }
