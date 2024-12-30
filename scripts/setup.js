@@ -31,6 +31,6 @@ let zNear = 0.1;
 let projectionMatrix = [
     [ aspectRatio * fovRadians, 0, 0, 0],
     [ 0, fovRadians, 0, 0],
-    [0, 0, zFar/(zFar - zNear), 1],
-    [0, 0, -zFar*zNear/(zFar - zNear), 0]
+    [0, 0, zFar/(zFar - zNear), -zFar*zNear/(zFar - zNear)],
+    [0, 0, 1, 0]
 ]
