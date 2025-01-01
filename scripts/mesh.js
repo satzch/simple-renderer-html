@@ -97,4 +97,16 @@ class Mesh {
             this.modified_vertices[i].position = this.vertices[i].position.multiplyMatrix(rotationMatrix);
         }
     }
+
+    /**
+     * Translate the mesh by the specified amounts
+     * @param {Vector} vec Translation in each axis
+     */
+    translate(vec) {
+        for (let vertex of this.modified_vertices) {
+            vertex += vec.x;
+            vertex += vec.y;
+            vertex += vec.z;
+        }
+    }
 }
