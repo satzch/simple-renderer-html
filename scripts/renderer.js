@@ -6,6 +6,8 @@ let rotationZ = 0;
 
 let cameraDir = [0, 0, 1]; // temp
 
+obj.setRotation(new Vector(0, 10, 0));
+
 function render() {
     clearScreen();
 

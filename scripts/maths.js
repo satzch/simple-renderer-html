@@ -122,15 +122,16 @@ class Vector {
     }
 
     /**
-     * Project the vector coordinates to screen coordinates
+     * Project the vector world coordinates to screen coordinates
      */
     projectToScreen() {
         let matrix = projectionMatrix;
         let result = [];
-        result.push(this.x * matrix[0][0] + this.y * matrix[0][1] + this.z * matrix[0][2] + matrix[0][3]);
-        result.push(this.x * matrix[1][0] + this.y * matrix[1][1] + this.z * matrix[1][2] + matrix[1][3]);
-        result.push(this.x * matrix[2][0] + this.y * matrix[2][1] + this.z * matrix[2][2] + matrix[2][3]);
-        result.push(this.x * matrix[3][0] + this.y * matrix[3][1] + this.z * matrix[3][2] + matrix[3][3]);
+        // since I am not calcuting it as a matrix multiply, commented out the non important ones for now to test.
+        result.push(this.x * matrix[0][0]) // + this.y * matrix[0][1] + this.z * matrix[0][2] + matrix[0][3]);
+        result.push(/* this.x * matrix[1][0] + */ this.y * matrix[1][1]) //  + this.z * matrix[1][2] + matrix[1][3]);
+        result.push(/* this.x * matrix[2][0] + this.y * matrix[2][1] + */ this.z * matrix[2][2] + matrix[2][3]);
+        result.push(/* this.x * matrix[3][0] + this.y * matrix[3][1] + */ this.z * matrix[3][2]) //+ matrix[3][3]);
 
         result[0] /= result[3];
         result[1] /= result[3];
