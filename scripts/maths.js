@@ -109,7 +109,7 @@ class Vector {
     }
 
     /**
-     * Multiply the vector with the matrix and return the result
+     * Multiply the vector (as column matrix) with the provided matrix and return the result
      * @param {Array<Array<Number>>} matrix Matrix to be multiplied
      * @returns Resulting vector after multiplying
      */

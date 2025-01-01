@@ -92,122 +92,6 @@ function drawTriangle(x0, y0, x1, y1, x2, y2, color) {
     drawLine(x2, y2, x0, y0, color);
 }
 
-function projectToScreen(vertex) {
-    if (LOG || LOG_All)
-        console.log("Projecting 3D to 2D using Projection Matrix");
-
-    if (vertex.length == 3) vertex.push(1);
-
-    // returns 2d array consisting of required result as the first element or only element
-    // 1x4 Matrix X 4x4 Matrix = 1x4 Matrix
-    let result = matrixMultiply([vertex] , projectionMatrix)[0];
-
-    if (LOG_All || LOG) console.log("Resulting Projected Vertex: ", result);
-    result[0] /= result[3]
-    result[1] /= result[3]
-    
-    return result;
-}
-
-function rotateAroundXAxis(vertex, angle) {
-    if (LOG || LOG_All)
-        console.log("Rotating the vertex: ", vertex, "by", angle, "radians around the x-axis");
-
-    if (vertex.length == 3) vertex.push(1);
-    // let radians = angle * Math.PI / 180;
-    let radians = angle;
-    const rotationMatrix = [
-        [1, 0, 0, 0],
-        [0, Math.cos(radians), -Math.sin(radians), 0],
-        [0, Math.sin(radians), Math.cos(radians), 0],
-        [0, 0, 0, 1]
-    ]
-    return matrixMultiply([vertex], rotationMatrix);
-}
-
-function rotateAroundZAxis(vertex, angle) {
-    if (LOG || LOG_All)
-        console.log("Rotating the vertex: ", vertex, "by", angle, "radians around the z-axis");
-
-    if (vertex.length == 3) vertex.push(1);
-    // let radians = angle * Math.PI / 180;
-    let radians = angle;
-    const rotationMatrix = [
-        [Math.cos(radians), -Math.sin(radians), 0, 0],
-        [Math.sin(radians), Math.cos(radians), 0, 0],
-        [0, 0, 1, 0],
-        [0, 0, 0, 1]
-    ];
-    let rotatedCoord = matrixMultiply([vertex], rotationMatrix);
-    return rotatedCoord;
-}
-
-
-function rotateAroundYAxis(vertex, angle) {
-    if (LOG || LOG_All)
-        console.log("Rotating the vertex: ", vertex, "by", angle, "radians around the y-axis");
-
-    if (vertex.length == 3) vertex.push(1);
-    // let radians = angle * Math.PI / 180;
-    let radians = angle;
-    const rotationMatrix = [
-        [Math.cos(radians), 0, Math.sin(radians), 0],
-        [0, 1, 0, 0],
-        [-Math.sin(radians), 0, Math.cos(radians), 0],
-        [0, 0, 0, 1]
-    ];
-    let rotatedCoord = matrixMultiply([vertex], rotationMatrix);
-    return rotatedCoord;
-}
-
-
-function dotProduct(A, B) {
-    if (LOG || LOG_All)
-        console.log("Dot Product: ", A, "and", B);
-
-    if (A.length != B.length) return null;
-    let result = 0;
-    for (let i = 0; i < A.length; i++) {
-        result += (A[i] * B[i]);
-    }
-    return result;
-}
-
-/**
- * Returns the cross product using the first three values of the arrays passed
- * representing the x, y and z of a vector3
- * @param {number[]} A - any length array can be passed, but only the first three elements will be considered
- * @param {number[]} B - any length array can be passed, but only the first three elements will be considered
- * @returns {number[]} cross product of A and B as an array of length 3.
- */
-function crossProductVec3(A, B) {
-    if (A.length < 3 || B.length < 3) return null;
-    let x = A[1] * B[2] - A[2] * B[1];
-    let y = A[2] * B[0] - A[0] * B[2];
-    let z = A[0] * B[1] - A[1] * B[0];
-    return [x, y, z];
-}
-
-/**
- * Returns the unit vector along the passed vector
- * @param {number[]} vector - a array consisting of vector components. any length
- */
-function normalizeVec(vector) {
-    // calculate the square root of sum of squares of the vector components to get the length
-    // let vectorLength = Math.hypot(vector[0], vector[1], vector[2]);
-    let vectorLength = 0;
-    for (let v of vector) {
-        vectorLength += v*v;
-    }
-    vectorLength = Math.sqrt(vectorLength);
-
-    for (let i = 0; i < vector.length; i++) {
-        vector[i] /= vectorLength;
-    }
-    return vector;
-}
-
-
 // I think this is where I should stop the polygon fill algorithm
 // I know a lots of optimization and rules can be introduced
 // But this is a learning project so I am keeping it limited for now, maybe upgrade it in future
@@ -289,8 +173,6 @@ function checkPointInsideTriangle(x, y, triangle, biases) {
 
 /**
  * Returns negative number if P is on the left of vector AB.
- * For more info check this article by Jason Tsorlinis:
- * https://jtsorlinis.github.io/rendering-tutorial/
  * @param {number[]} A 
  * @param {number[]} B 
  * @param {number[]} P 
