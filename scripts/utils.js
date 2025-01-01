@@ -45,15 +45,17 @@ function drawLine(x0, y0, x1, y1, color) {
     ctx.stroke();
 }
 
+/**
+ * Convert NDC to screen coordinates
+ * @param {Number} x X-coordinate of NDC 
+ * @param {Number} y Y-coordinate of NDC
+ * @returns 
+ */
 function normalToScreen(x, y) {
-    if (LOG || LOG_All) console.log("Converted Normal Coordinates to Screen Coordinates");
+    if (LOG || LOG_All) console.log("Converting Normal Coordinates to Screen Coordinates");
 
-    x += 1;
-    y += 1;
-    x = x / 2;
-    y = y / 2;
-    x *= Constants.screenWidth;
-    y *= Constants.screenHeight;
+    x = (x + 1) * 0.5 * Constants.screenWidth;
+    y = (y + 1) * 0.5 * Constants.screenHeight;
 
     if (LOG || LOG_All) console.log("Resultant Screen Coordinates: [", x, ",", y, "]");
 
