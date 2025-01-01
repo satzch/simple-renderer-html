@@ -16,9 +16,10 @@ const fovSlider = addNewInput("FOV", "range");
 fovSlider.value = fov;
 fovSlider.min = "5";
 fovSlider.max = "180";
-fovSlider.addEventListener("change", () => {
+fovSlider.step = "1";
+fovSlider.addEventListener("input", () => {
     let fov = fovSlider.value;
-    const fovRadians = 1 / ( Math.tan(fov * 0.5 * Math.PI / 180));
+    fovRadians = 1 / ( Math.tan(fov * 0.5 * Math.PI / 180));
     projectionMatrix[0][0] = aspectRatio * fovRadians;
     projectionMatrix[1][1] = fovRadians;
 });
@@ -30,10 +31,10 @@ zNearInput.max = "10";
 zNearInput.step = "0.01";
 zNearInput.value = zNear;
 zNearInput.disabled = true;
-zNearInput.addEventListener("change", () => {
+zNearInput.addEventListener("input", () => {
     zNear = zNearInput.value;
-    projectionMatrix[2][2] = zFar/(zFar - zNear);
-    projectionMatrix[3][2] = -zFar*zNear/(zFar - zNear);
+    projectionMatrix[2][2] = zFar / (zNear - zFar);
+    projectionMatrix[2][3] = (zFar * zNear) / (zNear - zFar);
 });
 
 const zFarInput = addNewInput("Z Far", "number");
@@ -41,10 +42,10 @@ zFarInput.min = "10";
 zFarInput.max = "1000";
 zFarInput.value = zFar;
 zFarInput.disabled = true;
-zFarInput.addEventListener("change", () => {
+zFarInput.addEventListener("input", () => {
     zFar = zFarInput.value;
-    projectionMatrix[2][2] = zFar/(zFar - zNear);
-    projectionMatrix[3][2] = -zFar*zNear/(zFar - zNear);
+    projectionMatrix[2][2] = zFar / (zNear - zFar);
+    projectionMatrix[2][3] = (zFar * zNear) / (zNear - zFar);
 });
 
 const rotateXOn = addNewInput("RotateX (local)", "checkbox");
@@ -124,10 +125,5 @@ window.addEventListener("resize", (e) => {
 
     aspectRatio = Constants.screenHeight/Constants.screenWidth;
     
-    projectionMatrix = [
-        [ aspectRatio * fovRadians, 0, 0, 0],
-        [ 0, fovRadians, 0, 0],
-        [0, 0, zFar/(zFar - zNear), 1],
-        [0, 0, -zFar*zNear/(zFar - zNear), 0]
-    ]
+    projectionMatrix[0][0] = aspectRatio * fovRadians;
 });

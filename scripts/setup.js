@@ -22,7 +22,7 @@ canvas.height = Constants.screenHeight;
 const ctx = canvas.getContext("2d");
 
 
-let fov = 90;
+let fov = 50;
 let aspectRatio = Constants.screenHeight/Constants.screenWidth;
 let fovRadians = 1 / ( Math.tan(fov * 0.5 * Math.PI / 180));
 let zFar = 100;
@@ -31,6 +31,6 @@ let zNear = 0.1;
 let projectionMatrix = [
     [ aspectRatio * fovRadians, 0, 0, 0],
     [ 0, fovRadians, 0, 0],
-    [0, 0, zFar/(zFar - zNear), -zFar*zNear/(zFar - zNear)],
-    [0, 0, 1, 0]
+    [0, 0, zFar / (zNear - zFar), (zFar * zNear) / (zNear - zFar)],
+    [0, 0, -1, 0]
 ]
