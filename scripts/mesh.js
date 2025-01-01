@@ -69,32 +69,27 @@ class Mesh {
         angles.x *= Math.PI/180;
         angles.y *= Math.PI/180;
         angles.z *= Math.PI/180;
-
-        const xRotationMatrix = [
-            [1, 0, 0, 0],
-            [0, Math.cos(angles.x), -Math.sin(angles.x), 0],
-            [0, Math.sin(angles.x), Math.cos(angles.x), 0],
-            [0, 0, 0, 1]
-        ];
-
-        const yRotationMatrix = [
-            [Math.cos(angles.y), 0, Math.sin(angles.y), 0],
-            [0, 1, 0, 0],
-            [-Math.sin(angles.y), 0, Math.cos(angles.y), 0],
-            [0, 0, 0, 1]
-        ];
-
-        const zRotationMatrix = [
-            [Math.cos(angles.z), -Math.sin(angles.z), 0, 0],
-            [Math.sin(angles.z), Math.cos(angles.z), 0, 0],
-            [0, 0, 1, 0],
-            [0, 0, 0, 1]
-        ];
-
-        const rotationMatrix = matrixMultiply(matrixMultiply(xRotationMatrix, yRotationMatrix), zRotationMatrix);
         
         for (let i = 0; i < this.vertices.length; i++) {
-            this.modified_vertices[i].position = this.vertices[i].position.multiplyMatrix(rotationMatrix);
+
+            let cos_x = Math.cos(angles.x);
+            let sin_x = Math.sin(angles.x);
+            let cos_y = Math.cos(angles.y);
+            let sin_y = Math.sin(angles.y);
+            let cos_z = Math.cos(angles.z);
+            let sin_z = Math.sin(angles.z);
+    
+            let x = this.vertices[i].position.x;
+            let y = this.vertices[i].position.y;
+            let z = this.vertices[i].position.z;
+    
+            let x_rot = (cos_y * cos_z) * x - (cos_y * sin_z) * y + sin_y * z;
+            let y_rot = (cos_x * sin_z + cos_z * sin_x * sin_y) * x + (cos_x * cos_z - sin_x * sin_y * sin_z) * y - (cos_y * sin_x) * z;
+            let z_rot = (sin_x * sin_z - cos_x * cos_z * sin_y) * x + (cos_z * sin_x + cos_x * sin_y * sin_z) * y + (cos_x * cos_y) * z;
+    
+            this.modified_vertices[i].position.x = x_rot;
+            this.modified_vertices[i].position.y = y_rot;
+            this.modified_vertices[i].position.z = z_rot;
         }
     }
 
