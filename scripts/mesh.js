@@ -34,8 +34,8 @@ class Mesh {
         this.vertices = vertices;
         this.indices = indices;
         this.modified_vertices = vertices;
-        console.log(this.vertices);
-        console.log(this.indices)
+
+        this.position = new Vector(0, 0, 0);
     }
 
     /**
@@ -57,7 +57,7 @@ class Mesh {
 
 
     /**
-     * Rotate the mesh by the specified angle about the respective axis
+     * Rotate the mesh by the specified angle about the respective axis around its origin
      * @param {Vector} angles Angles in degrees one for each axis
      * @example
      * ```
@@ -70,6 +70,8 @@ class Mesh {
         angles.y *= Math.PI/180;
         angles.z *= Math.PI/180;
         
+        this.translate(new Vector(-this.position.x, -this.position.y, -this.position.z));
+
         for (let i = 0; i < this.vertices.length; i++) {
 
             let cos_x = Math.cos(angles.x);
@@ -79,9 +81,9 @@ class Mesh {
             let cos_z = Math.cos(angles.z);
             let sin_z = Math.sin(angles.z);
     
-            let x = this.vertices[i].position.x;
-            let y = this.vertices[i].position.y;
-            let z = this.vertices[i].position.z;
+            let x = this.modified_vertices[i].position.x;
+            let y = this.modified_vertices[i].position.y;
+            let z = this.modified_vertices[i].position.z;
     
             let x_rot = (cos_y * cos_z) * x - (cos_y * sin_z) * y + sin_y * z;
             let y_rot = (cos_x * sin_z + cos_z * sin_x * sin_y) * x + (cos_x * cos_z - sin_x * sin_y * sin_z) * y - (cos_y * sin_x) * z;
@@ -91,6 +93,8 @@ class Mesh {
             this.modified_vertices[i].position.y = y_rot;
             this.modified_vertices[i].position.z = z_rot;
         }
+
+        this.translate(this.position);
     }
 
     /**
@@ -99,9 +103,20 @@ class Mesh {
      */
     translate(vec) {
         for (let vertex of this.modified_vertices) {
-            vertex += vec.x;
-            vertex += vec.y;
-            vertex += vec.z;
+            vertex.position.x += vec.x;
+            vertex.position.y += vec.y;
+            vertex.position.z += vec.z;
         }
+    }
+
+    /**
+     * Set the mesh position
+     * @param {Vector} vec 
+     */
+    setPosition(vec) {
+        this.position.x = vec.x;
+        this.position.y = vec.y;
+        this.position.z = vec.z;
+        this.translate(this.position);
     }
 }

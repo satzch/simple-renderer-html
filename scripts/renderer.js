@@ -6,7 +6,8 @@ let rotationZ = 0;
 
 let cameraDir = [0, 0, 1]; // temp
 
-obj.setRotation(new Vector(0, 10, 0));
+// obj.translate(new Vector(0, 0, -3);
+obj.setPosition(new Vector(0, 0, -2));
 
 function render() {
     clearScreen();
@@ -113,6 +114,9 @@ function render() {
     
     // }
     
+    obj.setRotation(new Vector(1, 0, 0));
+
+
     obj.render();
 
     if (LOG || LOG_All) console.log("Frame done.")
