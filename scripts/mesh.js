@@ -51,7 +51,11 @@ class Mesh {
             v2 = v2.position.projectToScreen();
             v3 = v3.position.projectToScreen();
 
-           drawTriangle(v1[0], v1[1], v2[0], v2[1], v3[0], v3[1], "white");
+            if (Settings.wireframeOn) {
+                drawTriangle(v1[0], v1[1], v2[0], v2[1], v3[0], v3[1], "white");
+            } else {
+                fillTriangle([v1[0], v1[1], v2[0], v2[1], v3[0], v3[1]], "white");
+            }
         }
     }
 

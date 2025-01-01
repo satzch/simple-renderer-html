@@ -114,7 +114,7 @@ function render() {
     
     // }
     
-    obj.setRotation(new Vector(1, 0, 0));
+    obj.setRotation(new Vector(rotationX, rotationY, rotationZ));
 
 
     obj.render();
@@ -122,13 +122,19 @@ function render() {
     if (LOG || LOG_All) console.log("Frame done.")
     
     if (Settings.rotateX) {
-        rotationX += 0.01;
+        rotationX = 1;
+    } else {
+        rotationX = 0;
     }
     if (Settings.rotateY) {
-        rotationY += 0.006;
+        rotationY = 1;
+    } else {
+        rotationY = 0;
     }
     if (Settings.rotateZ) {
-        rotationZ += 0.005;
+        rotationZ = 1;
+    } else {
+        rotationZ = 0;
     }
     requestAnimationFrame(render);
 }

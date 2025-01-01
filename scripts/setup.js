@@ -10,7 +10,7 @@ const Constants = {
 }
 
 const Settings = {
-    wireframeOn: false,
+    wireframeOn: true,
     rotateX: false,
     rotateY: true,
     rotateZ: false,
