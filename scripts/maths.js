@@ -138,6 +138,6 @@ class Vector {
         result[2] /= result[3];
 
         let projectedScreenCoord = normalToScreen(result[0], result[1]);
-        return projectedScreenCoord;
+        return new Vector(projectedScreenCoord[0], projectedScreenCoord[1], result[2]);
     }
 }
