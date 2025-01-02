@@ -48,6 +48,34 @@ zFarInput.addEventListener("input", () => {
     projectionMatrix[2][3] = (zFar * zNear) / (zNear - zFar);
 });
 
+
+const resInput= addNewInput("Resolution", "number");
+resInput.min = "0.25";
+resInput.max = "2";
+resInput.step = "0.25";
+resInput.value = "1";
+resInput.addEventListener("change", () => {
+    if (resInput.value < resInput.min) resInput.value = resInput.min;
+    else if (resInput.value > resInput.max) resInput.value = resInput.max;
+
+    for (let i = 0.25; i <= 2; i += 0.25) {
+        if (Math.abs(resInput.value - i) < 0.13) {
+            resInput.value = i;
+            break;
+        }
+    }
+
+    Constants.screenWidth = window.innerWidth * resInput.value;
+    Constants.screenHeight = window.innerHeight * resInput.value;
+
+    canvas.width = Constants.screenWidth;
+    canvas.height = Constants.screenHeight;
+
+    aspectRatio = Constants.screenHeight/Constants.screenWidth;
+    
+    projectionMatrix[0][0] = aspectRatio * fovRadians;
+});
+
 const rotateXOn = addNewInput("RotateX (local)", "checkbox");
 rotateXOn.checked = Settings.rotateX;
 rotateXOn.addEventListener("change", () => {
@@ -117,8 +145,8 @@ canvas.addEventListener("click", () => {
 
 // change the canvas size and aspect ratio if user resizes the browser window
 window.addEventListener("resize", (e) => {
-    Constants.screenWidth = window.innerWidth;
-    Constants.screenHeight = window.innerHeight;
+    Constants.screenWidth = window.innerWidth * resInput.value;
+    Constants.screenHeight = window.innerHeight * resInput.value;
 
     canvas.width = Constants.screenWidth;
     canvas.height = Constants.screenHeight;
