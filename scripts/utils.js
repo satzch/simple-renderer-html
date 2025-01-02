@@ -159,9 +159,9 @@ function fillTriangle(vt0, vt1, vt2, color) {
                 
                 // Don't need the below commented part for now
                 // Barycentric coordinates
-                let weightA = ABP/areaOfTriangle;
-                let weightB = BCP/areaOfTriangle;
-                let weightC = CAP/areaOfTriangle;
+                let weightA = BCP/areaOfTriangle;
+                let weightB = CAP/areaOfTriangle;
+                let weightC = ABP/areaOfTriangle;
 
                 weightA = weightA.toFixed(2);
                 weightB = weightB.toFixed(2);
