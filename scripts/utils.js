@@ -132,16 +132,15 @@ function fillTriangle(vt0, vt1, vt2, color) {
     let xMax = Math.max(x0, x1, x2);
     let yMax = Math.max(y0, y1, y2);
 
-
     let bias0 = isTopOrLeftSide([x0, y0], [x1, y1]) ? 0 : 1;
     let bias1 = isTopOrLeftSide([x1, y1], [x2, y2]) ? 0 : 1;
     let bias2 = isTopOrLeftSide([x2, y2], [x0, y0]) ? 0 : 1;
     let biases = [bias0, bias1, bias2];
 
     // Don't need for now
-    // let color1 = Color(255, 0, 0, 1);
-    // let color2 = Color(0, 255, 0, 1);
-    // let color3 = Color(0, 0, 255, 1);
+    let color1 = vt0.color;
+    let color2 = vt1.color;
+    let color3 = vt2.color;
 
     areaOfTriangle = edgeFunction([x0, y0], [x1, y1], [x2, y2]);
 
@@ -160,16 +159,20 @@ function fillTriangle(vt0, vt1, vt2, color) {
                 
                 // Don't need the below commented part for now
                 // Barycentric coordinates
-                // let weightA = ABP/areaOfTriangle;
-                // let weightB = BCP/areaOfTriangle;
-                // let weightC = CAP/areaOfTriangle;
+                let weightA = ABP/areaOfTriangle;
+                let weightB = BCP/areaOfTriangle;
+                let weightC = CAP/areaOfTriangle;
 
-                // let rColor = (weightA * color1.r) + (weightB * color2.r) + (weightC * color3.r);
-                // let gColor = (weightA * color1.g) + (weightB * color2.g) + (weightC * color3.g);
-                // let bColor = (weightA * color1.b) + (weightB * color2.b) + (weightC * color3.b);
-                // let resultColor = `rgb(${rColor}, ${gColor}, ${bColor})`;
+                weightA = weightA.toFixed(2);
+                weightB = weightB.toFixed(2);
+                weightC = weightC.toFixed(2);
+
+                let rColor = (weightA * color1.x) + (weightB * color2.x) + (weightC * color3.x);
+                let gColor = (weightA * color1.y) + (weightB * color2.y) + (weightC * color3.y);
+                let bColor = (weightA * color1.z) + (weightB * color2.z) + (weightC * color3.z);
+                let resultColor = `rgb(${rColor}, ${gColor}, ${bColor})`;
                 
-                putPixel(j, i, color);
+                putPixel(j, i, resultColor);
             }
         }
     }

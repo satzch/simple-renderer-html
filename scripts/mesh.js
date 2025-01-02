@@ -15,7 +15,7 @@ class Vertex {
      */
     constructor(x = 0, y = 0, z = 0) {
         this.position = new Vector(x, y, z);
-        this.color = new Vector();
+        this.color = new Vector(200, 200, 200);
         this.normal = new Vector();
     }
 

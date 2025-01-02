@@ -11,6 +11,21 @@ function Cube() {
         new Vertex(-0.5, -0.5, -0.5), // 6
         new Vertex(-0.5,  0.5, -0.5), // 7
     ];
+
+    vert_colors = [
+        new Vector(255,   0,   0),
+        new Vector(255, 255,   0),
+        new Vector(  0, 255,   0),
+        new Vector(  0, 255, 255),
+        new Vector(  0,   0, 255),
+        new Vector(255,   0, 255),
+        new Vector(245, 245, 245),
+        new Vector( 50,  50,  50)
+    ];
+
+    for (let i = 0; i < vertices.length; i++) {
+        vertices[i].color = vert_colors[i]; 
+    }
     
     tries = [
         0, 1, 2, // back
