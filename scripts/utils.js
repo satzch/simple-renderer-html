@@ -86,12 +86,23 @@ function matrixMultiply(A, B) {
     return C;
 }
 
-function drawTriangle(x0, y0, x1, y1, x2, y2, color) {
+/**
+ * Draws the outline of a triangle with vertices vt0, vt1, vt2
+ * @param {Vertex} vt0 Projected vertex 
+ * @param {Vertex} vt1 Projected vertex 
+ * @param {Vertex} vt2 Projected vertex 
+ * @param {string} color Color of the outline
+ */
+function drawTriangle(vt0, vt1, vt2, color) {
     if (LOG_All) console.log("Drawing triangle");
 
-    drawLine(x0, y0, x1, y1, color);
-    drawLine(x1, y1, x2, y2, color);
-    drawLine(x2, y2, x0, y0, color);
+    let v0 = vt0.position;
+    let v1 = vt1.position;
+    let v2 = vt2.position;
+
+    drawLine(v0.x, v0.y,  v1.x, v1.y,  color);
+    drawLine(v1.x, v1.y,  v2.x, v2.y,  color);
+    drawLine(v2.x, v2.y,  v0.x, v0.y,  color);
 }
 
 // I think this is where I should stop the polygon fill algorithm
@@ -101,11 +112,19 @@ function drawTriangle(x0, y0, x1, y1, x2, y2, color) {
 
 /**
  * Draws a filled triangle with the given coordinates and color.
- * @param {number[]} triangle - triangle to be drawn. An array of triangle coordinates in screen space, given in anti-clockwise order.
+ * @param {Vertex} vt0 Projected vertex
+ * @param {Vertex} vt1 Projected vertex
+ * @param {Vertex} vt2 Projected vertex
  * @param {string} color 
  */
-function fillTriangle(triangle, color) {
-    let [x0, y0, x1, y1, x2, y2] = triangle;
+function fillTriangle(vt0, vt1, vt2, color) {
+    let v0 = vt0.position;
+    let v1 = vt1.position;
+    let v2 = vt2.position;
+
+    let [x0, y0] = [v0.x, v0.y];
+    let [x1, y1] = [v1.x, v1.y];
+    let [x2, y2] = [v2.x, v2.y];
 
     // find bounding box around the given triangle coordinates
     let xMin = Math.min(x0, x1, x2);

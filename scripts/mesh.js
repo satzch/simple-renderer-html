@@ -61,16 +61,16 @@ class Mesh {
             vt2.copy(this.modified_vertices[this.indices[i+1]]);
             vt3.copy(this.modified_vertices[this.indices[i+2]]);
 
-            let v1 = vt1.position.projectToScreen();
-            let v2 = vt2.position.projectToScreen();
-            let v3 = vt3.position.projectToScreen();
+            vt1.position = vt1.position.projectToScreen();
+            vt2.position = vt2.position.projectToScreen();
+            vt3.position = vt3.position.projectToScreen();
 
             if (Settings.wireframeOn) {
                 // drawTriangle(v1[0], v1[1], v2[0], v2[1], v3[0], v3[1], "white");
-                drawTriangle(v1.x, v1.y, v2.x, v2.y, v3.x, v3.y, "white");
+                drawTriangle(vt1, vt2, vt3, "white");
             } else {
                 // fillTriangle([v1[0], v1[1], v2[0], v2[1], v3[0], v3[1]], "white");
-                fillTriangle([v1.x, v1.y, v2.x, v2.y, v3.x, v3.y], "white");
+                fillTriangle(vt1, vt2, vt3, "white");
             }
         }
     }
