@@ -65,8 +65,7 @@ resInput.addEventListener("change", () => {
         }
     }
 
-    Constants.screenWidth = window.innerWidth * resInput.value;
-    Constants.screenHeight = window.innerHeight * resInput.value;
+    updateScreenSize(window.innerWidth * resInput.value, window.innerHeight * resInput.value);
 
     canvas.width = Constants.screenWidth;
     canvas.height = Constants.screenHeight;
@@ -145,8 +144,7 @@ canvas.addEventListener("click", () => {
 
 // change the canvas size and aspect ratio if user resizes the browser window
 window.addEventListener("resize", (e) => {
-    Constants.screenWidth = window.innerWidth * resInput.value;
-    Constants.screenHeight = window.innerHeight * resInput.value;
+    updateScreenSize(window.innerWidth * resInput.value, window.innerHeight * resInput.value);
 
     canvas.width = Constants.screenWidth;
     canvas.height = Constants.screenHeight;
@@ -155,3 +153,13 @@ window.addEventListener("resize", (e) => {
     
     projectionMatrix[0][0] = aspectRatio * fovRadians;
 });
+
+/**
+ * Update the screen size with new width and height
+ * @param {Number} width 
+ * @param {Number} height 
+ */
+function updateScreenSize(width, height) {
+    Constants.screenWidth = Math.round(width);
+    Constants.screenHeight = Math.round(height);
+}
