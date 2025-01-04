@@ -21,7 +21,11 @@ fileInput.addEventListener("change", async () => {
         for (let line of objectData) {
             if (line[0] == 'v') {
                 line = line.split(" ");
-                selectedObj.vertices.push(new Vertex(Number(line[1]), Number(line[2]), Number(line[3])));
+                let vertex = new Vertex(Number(line[1]), Number(line[2]), Number(line[3]));
+                if (line[6]) {
+                    vertex.color = new Vector(Number(line[4]), Number(line[5]), Number(line[6]));
+                }
+                selectedObj.vertices.push(vertex);
             }
 
             if (line[0] == 'f') {
@@ -35,6 +39,6 @@ fileInput.addEventListener("change", async () => {
 
 
     obj = new Mesh(selectedObj.vertices, selectedObj.tries);
-    obj.setPosition(new Vector(0, 0, -10));
+    obj.setPosition(new Vector(0, 0, -5));
 })
 
