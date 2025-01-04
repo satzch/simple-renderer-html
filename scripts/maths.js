@@ -23,7 +23,7 @@ class Vector {
      * @returns The magnitude of the vector
      */
     length() {
-        return Math.sqrt(this.dot(this, this));
+        return Math.sqrt(this.dot(this));
     }
 
     /**
@@ -33,9 +33,9 @@ class Vector {
     normalize() {
         let result = new Vector();
         let length = this.length();
-        result.x /= length;
-        result.y /= length;
-        result.z /= length;
+        result.x = this.x / length;
+        result.y = this.y / length;
+        result.z = this.z / length;
         return result;
     }
 
@@ -89,7 +89,7 @@ class Vector {
     /**
      * Returns the cross product
      * @param {Vector} vec The vector with which cross product is calculated
-     * @returns Returns the cross product of the vectors
+     * @returns Returns the cross product of the vectors `this` x  `vec`
      */ 
     cross(vec) {
         let result = new Vector();

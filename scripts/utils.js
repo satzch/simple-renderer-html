@@ -115,12 +115,27 @@ function drawTriangle(vt0, vt1, vt2, color) {
  * @param {Vertex} vt0 Projected vertex
  * @param {Vertex} vt1 Projected vertex
  * @param {Vertex} vt2 Projected vertex
+ * @param {Vector} mesh_pos Position of the mesh the triangle is a part of
  * @param {string} color 
  */
-function fillTriangle(vt0, vt1, vt2, color) {
+function fillTriangle(vt0, vt1, vt2, mesh_pos = new Vector(), color) {
     let v0 = vt0.position;
     let v1 = vt1.position;
     let v2 = vt2.position;
+
+    // let viewDir = v0.add(v1).add(v2).multiply(1/3);
+    let cameraPos = new Vector();
+    let viewDir = mesh_pos.sub(cameraPos);
+    // viewDir = new Vector(0, 0, 1);
+
+    let v0to1 = v1.sub(v0).normalize();
+    let v0to2 = v2.sub(v0).normalize();
+    let normal = v0to1.cross(v0to2).normalize();
+
+    if (viewDir.dot(normal) < 0) {
+        // console.log("don't draw")
+        return;
+    }
 
     // let ColorBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth));
     let DepthBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth).fill(Infinity));
