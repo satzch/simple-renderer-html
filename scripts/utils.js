@@ -138,7 +138,7 @@ function fillTriangle(vt0, vt1, vt2, mesh_pos = new Vector(), color) {
     }
 
     // let ColorBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth));
-    let DepthBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth).fill(Infinity));
+    // let DepthBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth).fill(Infinity));
     // console.log(DepthBuffer)
     
     let [x0, y0, z0] = [v0.x, v0.y, v0.z];
@@ -266,4 +266,11 @@ function Color(r,g,b,a) {
 
 function getColor(intensity) {
     return `rgb(${intensity*255} 0 0)`;
+}
+
+/**
+ * Clears the depth buffer
+ */
+function clearDepthBuffer() {
+    DepthBuffer.forEach(row => row.fill(Infinity));
 }

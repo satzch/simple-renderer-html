@@ -12,6 +12,10 @@ obj.setPosition(new Vector(0, 0, -2));
 function render() {
     clearScreen();
 
+    // recreating but not clearing depth buffer since the screen size might have changed on user actions
+    DepthBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth).fill(Infinity));
+
+
     // bresenhamLine(300, 400, 200, 200, "white");
     // drawLine(300, 300, 50, 50, "white");
 

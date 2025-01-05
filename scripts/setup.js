@@ -21,6 +21,7 @@ canvas.height = Constants.screenHeight;
 
 const ctx = canvas.getContext("2d");
 
+let DepthBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth).fill(Infinity));
 
 let fov = 50;
 let aspectRatio = Constants.screenHeight/Constants.screenWidth;
