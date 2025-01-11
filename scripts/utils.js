@@ -274,3 +274,24 @@ function getColor(intensity) {
 function clearDepthBuffer() {
     DepthBuffer.forEach(row => row.fill(Infinity));
 }
+
+/**
+ * Clear the color buffer with background color
+ * @param {Color} bgcolor The color of the background
+ */
+function clearColorBuffer(bgcolor = Color(15, 15, 15, 255)) {
+    const data = ColorBuffer.data;
+    for (let i = 0; i < data.length; i += 4) {
+        data[i] = bgcolor.r;
+        data[i + 1] = bgcolor.g;
+        data[i + 2] = bgcolor.b;
+        data[i + 3] = bgcolor.a;
+    }
+}
+
+/**
+ * Transferring the drawn contents from the color buffer to the visible screen.
+ */
+function flushColorBuffer() {
+    ctx.putImageData(ColorBuffer, 0, 0);
+}

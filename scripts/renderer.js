@@ -12,6 +12,7 @@ obj.setPosition(new Vector(0, 0, -2));
 function render() {
     clearScreen();
     clearDepthBuffer();
+    clearColorBuffer();
 
 
     // bresenhamLine(300, 400, 200, 200, "white");
@@ -120,6 +121,8 @@ function render() {
 
 
     obj.render();
+
+    flushColorBuffer();
 
     if (LOG || LOG_All) console.log("Frame done.")
     

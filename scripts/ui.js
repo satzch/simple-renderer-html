@@ -163,6 +163,9 @@ function updateCanvasParameters() {
     // resize the Depth Buffer
     DepthBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth).fill(Infinity));
 
+    // resize the Color Buffer
+    ColorBuffer = ctx.createImageData(Constants.screenWidth, Constants.screenHeight);
+
     // update projection
     aspectRatio = Constants.screenHeight/Constants.screenWidth;
     projectionMatrix[0][0] = aspectRatio * fovRadians;
