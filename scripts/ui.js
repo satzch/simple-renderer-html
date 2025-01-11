@@ -66,13 +66,6 @@ resInput.addEventListener("change", () => {
     }
 
     updateScreenSize(window.innerWidth * resInput.value, window.innerHeight * resInput.value);
-
-    canvas.width = Constants.screenWidth;
-    canvas.height = Constants.screenHeight;
-
-    aspectRatio = Constants.screenHeight/Constants.screenWidth;
-    
-    projectionMatrix[0][0] = aspectRatio * fovRadians;
 });
 
 const rotateXOn = addNewInput("RotateX (local)", "checkbox");
@@ -145,13 +138,6 @@ canvas.addEventListener("click", () => {
 // change the canvas size and aspect ratio if user resizes the browser window
 window.addEventListener("resize", (e) => {
     updateScreenSize(window.innerWidth * resInput.value, window.innerHeight * resInput.value);
-
-    canvas.width = Constants.screenWidth;
-    canvas.height = Constants.screenHeight;
-
-    aspectRatio = Constants.screenHeight/Constants.screenWidth;
-    
-    projectionMatrix[0][0] = aspectRatio * fovRadians;
 });
 
 /**
@@ -162,4 +148,22 @@ window.addEventListener("resize", (e) => {
 function updateScreenSize(width, height) {
     Constants.screenWidth = Math.round(width);
     Constants.screenHeight = Math.round(height);
+
+    updateCanvasParameters();
+}
+
+/**
+ * updates the canvas and rendering related parameters
+ */
+function updateCanvasParameters() {
+    // update canvas size
+    canvas.width = Constants.screenWidth;
+    canvas.height = Constants.screenHeight;
+    
+    // resize the Depth Buffer
+    DepthBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth).fill(Infinity));
+
+    // update projection
+    aspectRatio = Constants.screenHeight/Constants.screenWidth;
+    projectionMatrix[0][0] = aspectRatio * fovRadians;
 }
