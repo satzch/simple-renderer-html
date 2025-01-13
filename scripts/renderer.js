@@ -122,7 +122,8 @@ function render() {
 
     obj.render();
 
-    flushColorBuffer();
+    if (!Settings.wireframeOn)
+        flushColorBuffer();
 
     if (LOG || LOG_All) console.log("Frame done.")
     
