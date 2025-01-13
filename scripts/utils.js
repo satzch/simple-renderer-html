@@ -105,11 +105,6 @@ function drawTriangle(vt0, vt1, vt2, color) {
     drawLine(v2.x, v2.y,  v0.x, v0.y,  color);
 }
 
-// I think this is where I should stop the polygon fill algorithm
-// I know a lots of optimization and rules can be introduced
-// But this is a learning project so I am keeping it limited for now, maybe upgrade it in future
-// Will again make a Renderer using OpenGl or Vulkan or maybe other, there I will try to expore all the optimizations 
-
 /**
  * Draws a filled triangle with the given coordinates and color.
  * @param {Vertex} vt0 Projected vertex
@@ -136,10 +131,6 @@ function fillTriangle(vt0, vt1, vt2, mesh_pos = new Vector(), color) {
         // console.log("don't draw")
         return;
     }
-
-    // let ColorBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth));
-    // let DepthBuffer = new Array(Constants.screenHeight).fill().map(() => new Array(Constants.screenWidth).fill(Infinity));
-    // console.log(DepthBuffer)
     
     let [x0, y0, z0] = [v0.x, v0.y, v0.z];
     let [x1, y1, z1] = [v1.x, v1.y, v1.z];
