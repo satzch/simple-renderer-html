@@ -17,8 +17,9 @@ function render() {
     obj.setRotation(new Vector(rotationX, rotationY, rotationZ));
     obj.render();
 
-    if (!Settings.wireframeOn)
+    if (!Settings.wireframeOn && Settings.useColorBuffer) {
         flushColorBuffer();
+    }
 
     
     if (LOG || LOG_All) console.log("Frame done.")

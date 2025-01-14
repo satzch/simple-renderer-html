@@ -93,6 +93,12 @@ wireframeOn.addEventListener("change", () => {
     Settings.wireframeOn = wireframeOn.checked;
 })
 
+const useColorBuffer = addNewInput("Use ColorBuffer", "checkbox");
+useColorBuffer.checked = Settings.useColorBuffer;
+useColorBuffer.addEventListener("change", () => {
+    Settings.useColorBuffer = useColorBuffer.checked;
+})
+
 
 body.appendChild(ui);
 

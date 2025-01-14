@@ -82,8 +82,11 @@ function fillTriangleInColorBuffer(vt0, vt1, vt2, mesh_pos = new Vector(), color
                     // Update the Depth Buffer
                     DepthBuffer[i][j] = interpolatedZ;
                     
+                    // In HTML canvas, y increases downwards but I need y increase upwards
+                    let flippedI = Constants.screenHeight - 1 - i;
+
                     // Update the Color Buffer
-                    let index = (i * Constants.screenWidth + j) * 4;
+                    let index = (flippedI * Constants.screenWidth + j) * 4;
                     colorData[index] = rColor;
                     colorData[index + 1] = gColor;
                     colorData[index + 2] = bColor;

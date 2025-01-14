@@ -68,8 +68,11 @@ class Mesh {
             if (Settings.wireframeOn) {
                 drawTriangle(vt1, vt2, vt3, "white");
             } else {
-                // fillTriangle(vt1, vt2, vt3, this.position, "white");
-                fillTriangleInColorBuffer(vt1, vt2, vt3, this.position, "white");
+                if (Settings.useColorBuffer) {
+                    fillTriangleInColorBuffer(vt1, vt2, vt3, this.position, "white");
+                } else {
+                    fillTriangle(vt1, vt2, vt3, this.position, "white");
+                }
             }
         }
     }

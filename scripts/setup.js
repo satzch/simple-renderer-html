@@ -14,6 +14,7 @@ const Settings = {
     rotateX: false,
     rotateY: true,
     rotateZ: false,
+    useColorBuffer: false
 };
 
 canvas.width = Constants.screenWidth;
