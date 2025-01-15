@@ -39,6 +39,6 @@ fileInput.addEventListener("change", async () => {
 
 
     obj = new Mesh(selectedObj.vertices, selectedObj.tries);
-    obj.setPosition(new Vector(0, 0, -5));
+    obj.setPosition(new Vector(0, 0, -8));
 })
 
